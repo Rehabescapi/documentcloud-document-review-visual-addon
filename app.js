@@ -90,12 +90,14 @@ function getDocuments(url, attrs, metadata) {
               docDl.appendChild(dd);
             });
             metadata.forEach((datum) => {
-              var dt = document.createElement("dt");
-              dt.innerHTML = datum;
-              docDl.appendChild(dt);
-              var dd = document.createElement("dd");
-              dd.innerHTML = item.data[datum];
-              docDl.appendChild(dd);
+              if (datum) {
+                var dt = document.createElement("dt");
+                dt.innerHTML = datum;
+                docDl.appendChild(dt);
+                var dd = document.createElement("dd");
+                dd.innerHTML = item.data[datum];
+                docDl.appendChild(dd);
+              };
             });
             if (item.notes.length > 0) {
               var dt = document.createElement("dt");
