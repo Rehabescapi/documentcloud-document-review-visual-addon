@@ -1,0 +1,23 @@
+body {
+  margin: 40px auto;
+  max-width: 650px;
+  line-height: 1.6;
+  font-size: 18px;
+  color: #444;
+  padding: 0 10px;
+}
+
+#config {
+  position: fixed;
+  top: 20px;
+  left: 40px;
+  background: #f3f6ff;
+  border: 1px solid #bbb;
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.button {
+  text-align: center;
+  margin-top: 10px;
+}
