@@ -82,7 +82,7 @@ function getDocuments(url, attrs, metadata) {
               docDl.appendChild(dt);
               var dd = document.createElement("dd");
               if (i == 0) {
-                  dd.innerHTML = `<a href="${item.canonical_url}" target="_blank">` + 
+                  dd.innerHTML = `<a href="${item.canonical_url}" target="_blank">` +
                   `${item[attr]}</a>`;
               } else {
                 dd.innerHTML = item[attr];
@@ -97,6 +97,20 @@ function getDocuments(url, attrs, metadata) {
               dd.innerHTML = item.data[datum];
               docDl.appendChild(dd);
             });
+            if (item.notes.length > 0) {
+              var dt = document.createElement("dt");
+              dt.innerHTML = "Notes";
+              docDl.appendChild(dt);
+              var dd = document.createElement("dd");
+              var ul = document.createElement("ul");
+              dd.appendChild(ul);
+              item.notes.forEach((note) => {
+                var li = document.createElement("li");
+                li.innerHTML = note.title;
+                ul.appendChild(li);
+              });
+              docDl.appendChild(dd);
+            }
             documents.appendChild(docDiv);
             documents.appendChild(document.createElement("hr"));
           });
