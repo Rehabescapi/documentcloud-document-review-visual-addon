@@ -25,14 +25,14 @@ function getUserId() {
     `Error: check your CORS settings: ${err}`);
 }
 
-function paginator(parent, data, url, attrs, metadata, group) {
+function paginator(parent, data, url, attrs, metadata, group, notes) {
   var nav = document.createElement("div");
   parent.appendChild(nav);
   if (prevUrls.length > 0) {
     var a = document.createElement("a");
     a.addEventListener("click", (event) => {
       event.preventDefault();
-      getDocuments(prevUrls.pop(), attrs, metadata, group);
+      getDocuments(prevUrls.pop(), attrs, metadata, group, notes);
     });
     a.href = "#";
     a.innerHTML = "Prev";
@@ -46,7 +46,7 @@ function paginator(parent, data, url, attrs, metadata, group) {
     a.addEventListener("click", (event) => {
       event.preventDefault();
       prevUrls.push(url);
-      getDocuments(data.next, attrs, metadata, group);
+      getDocuments(data.next, attrs, metadata, group, notes);
     });
     a.href = "#";
     a.innerHTML = "Next";
@@ -57,7 +57,7 @@ function paginator(parent, data, url, attrs, metadata, group) {
   return nav;
 }
 
-function getDocuments(url, attrs, metadata, group) {
+function getDocuments(url, attrs, metadata, group, notes) {
   const documents = document.getElementById("documents");
   documents.innerHTML = "Loading...";
   fetch(url, { credentials: "include"})
@@ -107,7 +107,7 @@ function getDocuments(url, attrs, metadata, group) {
                 docDl.appendChild(dd);
               }
             });
-            if (item.notes.length > 0) {
+            if (notes && item.notes.length > 0) {
               var dt = document.createElement("dt");
               dt.innerHTML = "Notes";
               docDl.appendChild(dt);
@@ -116,7 +116,11 @@ function getDocuments(url, attrs, metadata, group) {
               dd.appendChild(ul);
               item.notes.forEach((note) => {
                 var li = document.createElement("li");
-                li.innerHTML = note.title;
+                if (note.content) {
+                  li.innerHTML = `${note.title} - ${note.content}`;
+                } else {
+                  li.innerHTML = note.title;
+                }
                 ul.appendChild(li);
               });
               docDl.appendChild(dd);
@@ -138,6 +142,7 @@ function update() {
   var metadata = document.getElementById("data").value.split(",").map((i) => i.trim());
   var sort = document.getElementById("sort").value.trim();
   var group = document.getElementById("group").checked;
+  var notes = document.getElementById("notes").checked;
   console.log("group", group);
   var dataUrl;
   if (sort) {
@@ -152,7 +157,7 @@ function update() {
       group = sort;
     }
   }
-  getDocuments(dataUrl, attrs, metadata, group);
+  getDocuments(dataUrl, attrs, metadata, group, notes);
 }
 
 document.getElementById("update").addEventListener("click", update);
