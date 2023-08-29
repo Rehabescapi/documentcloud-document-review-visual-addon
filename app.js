@@ -3,6 +3,18 @@ var userId;
 var prevUrls = [];
 const searchUrl = "https://api.www.documentcloud.org/api/documents/search/";
 
+function loadHash() {
+  if (window.location.hash) {
+    var state = JSON.parse(decodeURIComponent(window.location.hash.slice(1)));
+    document.getElementById("query").value = state.query;
+    document.getElementById("attrs").value = state.attrs.join(", ");
+    document.getElementById("data").value = state.metadata.join(", ");
+    document.getElementById("sort").value = state.sort;
+    document.getElementById("group").checked = state.group;
+    document.getElementById("notes").checked = state.notes;
+  }
+}
+
 function getUserId() {
   const url = "https://api.www.documentcloud.org/api/users/me/";
   fetch(url, { credentials: "include"})
@@ -14,8 +26,11 @@ function getUserId() {
               data.username;
             userId = data.id;
             var query = `user:${userId}`;
-            document.getElementById("query").value = query;
+            if (!document.getElementById("query").value) {
+              document.getElementById("query").value = query;
+            }
             update();
+
           }
         });
       } else {
@@ -143,7 +158,16 @@ function update() {
   var sort = document.getElementById("sort").value.trim();
   var group = document.getElementById("group").checked;
   var notes = document.getElementById("notes").checked;
-  console.log("group", group);
+  var state = {
+    "query": query,
+    "attrs": attrs,
+    "metadata": metadata,
+    "sort": sort,
+    "group": group,
+    "notes": notes,
+  }
+  window.location = "#" + encodeURIComponent(JSON.stringify(state));
+
   var dataUrl;
   if (sort) {
     dataUrl = `${searchUrl}?q=${query}&sort=data_${sort}`;
@@ -162,4 +186,5 @@ function update() {
 
 document.getElementById("update").addEventListener("click", update);
 
+loadHash();
 getUserId();
