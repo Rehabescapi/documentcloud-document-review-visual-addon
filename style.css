@@ -15,9 +15,20 @@ body {
   border: 1px solid #bbb;
   border-radius: 15px;
   padding: 15px;
+  width: 310px;
 }
 
 .button {
   text-align: center;
   margin-top: 10px;
+}
+
+#query {
+  width: 97%;
+  height: 50px;
+}
+
+.help {
+  font-size:14px;
+  color: #666;
 }

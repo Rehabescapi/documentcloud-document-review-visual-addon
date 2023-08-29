@@ -19,7 +19,7 @@ function getUserId() {
           }
         });
       } else {
-        document.getElementById("auth").innerHTML = "You are not authenticated";
+        document.getElementById("auth").innerHTML = "You are not authenticated, <a href=\"https://www.documentcloud.org/\">please login</a>";
       }
     }).catch((err) => document.getElementById("auth").innerHTML =
     `Error: check your CORS settings: ${err}`);
