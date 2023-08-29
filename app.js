@@ -74,10 +74,10 @@ function getDocuments(url, attrs, metadata, group) {
           documents.appendChild(document.createElement("hr"));
           data.results.forEach((item, index) => {
             if ((group && index === 0) ||
-                (group && data.results[index - 1].data[group][0] !== item.data[group][0])
+                (group && data.results[index - 1].data[group]?.[0] !== item.data[group]?.[0])
               ) {
               var header = document.createElement("h1");
-              header.innerHTML = item.data[group][0];
+              header.innerHTML = item.data[group]?.[0];
               documents.appendChild(header);
               documents.appendChild(document.createElement("hr"));
             }
@@ -146,7 +146,11 @@ function update() {
     dataUrl = `${searchUrl}?q=${query}`;
   }
   if (group) {
-    group = sort;
+    if (sort.startsWith("-")) {
+      group = sort.slice(1);
+    } else {
+      group = sort;
+    }
   }
   getDocuments(dataUrl, attrs, metadata, group);
 }
