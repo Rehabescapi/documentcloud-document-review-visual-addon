@@ -25,14 +25,14 @@ function getUserId() {
     `Error: check your CORS settings: ${err}`);
 }
 
-function paginator(parent, data, url, attrs, metadata) {
+function paginator(parent, data, url, attrs, metadata, group) {
   var nav = document.createElement("div");
   parent.appendChild(nav);
   if (prevUrls.length > 0) {
     var a = document.createElement("a");
     a.addEventListener("click", (event) => {
       event.preventDefault();
-      getDocuments(prevUrls.pop(), attrs, metadata);
+      getDocuments(prevUrls.pop(), attrs, metadata, group);
     });
     a.href = "#";
     a.innerHTML = "Prev";
@@ -46,7 +46,7 @@ function paginator(parent, data, url, attrs, metadata) {
     a.addEventListener("click", (event) => {
       event.preventDefault();
       prevUrls.push(url);
-      getDocuments(data.next, attrs, metadata);
+      getDocuments(data.next, attrs, metadata, group);
     });
     a.href = "#";
     a.innerHTML = "Next";
@@ -57,7 +57,7 @@ function paginator(parent, data, url, attrs, metadata) {
   return nav;
 }
 
-function getDocuments(url, attrs, metadata) {
+function getDocuments(url, attrs, metadata, group) {
   const documents = document.getElementById("documents");
   documents.innerHTML = "Loading...";
   fetch(url, { credentials: "include"})
@@ -70,9 +70,17 @@ function getDocuments(url, attrs, metadata) {
               `There are ${data.count.toLocaleString("en-us")} documents`
             )
           );
-          paginator(documents, data, url, attrs, metadata);
+          paginator(documents, data, url, attrs, metadata, group);
           documents.appendChild(document.createElement("hr"));
-          data.results.forEach((item) => {
+          data.results.forEach((item, index) => {
+            if ((group && index === 0) ||
+                (group && data.results[index - 1].data[group][0] !== item.data[group][0])
+              ) {
+              var header = document.createElement("h1");
+              header.innerHTML = item.data[group][0];
+              documents.appendChild(header);
+              documents.appendChild(document.createElement("hr"));
+            }
             var docDiv = document.createElement("div");
             var docDl = document.createElement("dl");
             docDiv.appendChild(docDl);
@@ -97,7 +105,7 @@ function getDocuments(url, attrs, metadata) {
                 var dd = document.createElement("dd");
                 dd.innerHTML = item.data[datum];
                 docDl.appendChild(dd);
-              };
+              }
             });
             if (item.notes.length > 0) {
               var dt = document.createElement("dt");
@@ -116,7 +124,7 @@ function getDocuments(url, attrs, metadata) {
             documents.appendChild(docDiv);
             documents.appendChild(document.createElement("hr"));
           });
-          paginator(documents, data, url, attrs, metadata);
+          paginator(documents, data, url, attrs, metadata, group);
         });
       } else {
         documents.innerHTML = "Error";
@@ -126,10 +134,21 @@ function getDocuments(url, attrs, metadata) {
 
 function update() {
   var query = document.getElementById("query").value;
-  var dataUrl = `${searchUrl}?q=${query}`;
   var attrs = document.getElementById("attrs").value.split(",").map((i) => i.trim());
   var metadata = document.getElementById("data").value.split(",").map((i) => i.trim());
-  getDocuments(dataUrl, attrs, metadata);
+  var sort = document.getElementById("sort").value.trim();
+  var group = document.getElementById("group").checked;
+  console.log("group", group);
+  var dataUrl;
+  if (sort) {
+    dataUrl = `${searchUrl}?q=${query}&sort=data_${sort}`;
+  } else {
+    dataUrl = `${searchUrl}?q=${query}`;
+  }
+  if (group) {
+    group = sort;
+  }
+  getDocuments(dataUrl, attrs, metadata, group);
 }
 
 document.getElementById("update").addEventListener("click", update);
