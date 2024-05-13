@@ -1,0 +1,102 @@
+
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>DocumentCloud UI Example Add-On</title>
+  <meta name="description" content="A proof of concept for UI Add-Ons">
+  <meta name="author" content="Mitchell Kotler">
+</head>
+
+<body>
+  <p id="content">Loading...</p>
+
+
+  <p id="ProjectTitle"> 
+
+  </p>
+    <ul id="ProjectList">
+      <li></li>
+    </ul>
+  <script>
+
+    const url = "https://api.www.documentcloud.org/api/users/me/";
+    const projectsUrl = "https://api.www.documentcloud.org/api/projects/218188"
+    const projectDocsUrl = "https://api.www.documentcloud.org/api/projects/218188/documents"
+
+
+    const documentStub = "https://api.www.documentcloud.org/api/documents/"
+    
+    const List = document.getElementById("ProjectList")
+    fetch(url, { credentials: "include"})
+      .then((response) => {
+        console.log(response);
+        if (response.ok) {
+          response.json().then((data) => {
+            console.log(data);
+            if (data) {
+              document.getElementById("content").innerHTML = "You are authenticated as " + data.username;
+
+
+
+              fetch(projectsUrl, ).then((response)=> {
+                if (response.ok){
+                  response.json().then((projData) => {
+                    console.log(projData)
+                    document.getElementById("ProjectTitle").innerHTML = "Project Name : " + projData.title;
+
+
+                  })
+                }
+              })
+            
+              fetch(projectDocsUrl, ).then((response)=> {
+                if (response.ok){
+                  response.json().then((projData) => {
+                    console.log(projData)
+                    var data = projData.results.sort()
+
+                    var smallArray = projData.results.slice(0,3)
+                    console.log(smallArray)
+                     smallArray.forEach(element => {
+                      fetch(documentStub+element.document+"/",).then( (docResponse) => {
+                        if(docResponse.ok){
+                          docResponse.json().then((docData)=>{
+                            
+                            console.log(docData)
+                            var x = document.createElement('li')
+                            List.append(x)
+                            x.innerText = docData.title
+
+                          }
+
+                           
+                          )
+                        }
+                      }
+
+                      )
+                     
+                      
+                     });{
+                      }
+                    
+                  })
+                }
+              }
+            
+            )
+            }
+          });
+        } else {
+          document.getElementById("content").innerHTML = "You are not authenticated";
+        }
+      }).catch((err) => document.getElementById("content").innerHTML = "Error: check your CORS settings");
+
+  </script>
+</body>
+</html>
+
