@@ -136,22 +136,6 @@
                 postData(documentStub+element.document+"/", {answer: 42}).then(
                   console.log(element +" Stubbed")
                 )
-               /*
-               fetch(documentStub+element.document+"/",).then( (docResponse) => {
-                  if(docResponse.ok){
-                    docResponse.json().then((docData)=>{                    
-                      console.log(docData)
-                      var x = document.createElement('li')
-                      List.append(x)
-                      x.innerText = docData.title
-                    }            
-                    )
-                  }
-                }
-
-                )
-               
-                */
                });
 
             }

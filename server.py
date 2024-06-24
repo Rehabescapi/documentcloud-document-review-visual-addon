@@ -54,6 +54,10 @@ def createProj():
     return render_template('./createProject.html', **context)
 
 
+@app.route('/delete')
+def deleteProj():
+    return render_template('./deleteProject.html', **context)
+
 @app.route('/proxy/<path:path>', methods=['PUT','PATCH'])
 def proxy_put(path):
     url = f"https://api.www.documentcloud.org/{path}"
