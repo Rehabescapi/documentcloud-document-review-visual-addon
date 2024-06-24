@@ -1,0 +1,63 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>DocumentCloud UI Example Add-On</title>
+  <meta name="description" content="A proof of concept for UI Add-Ons">
+  <meta name="author" content="Mitchell Kotler">
+
+  <script type="importmap">
+    {
+      "imports": {
+        "constants": "/static/constants.js"
+      }
+    }
+    </script>
+
+    <script type="module" src="{{ url_for('static', filename='APIcalls.js')}}"></script>
+  </body>
+
+</head>
+
+<body>
+  <p id="content">Loading...</p>
+  <p id="ProjectTitle"></p>
+  <ul id="ProjectList"></ul>
+
+
+  <script >
+     const url = "https://api.www.documentcloud.org/api/users/me/";
+ const projectsUrl =
+  "https://api.www.documentcloud.org/api/projects/218188";
+ const projectDocsUrl =
+  "https://api.www.documentcloud.org/api/projects/218188/documents";
+ const documentStub = "https://api.www.documentcloud.org/api/documents/";
+
+ const emptyProject =
+  "https://api.www.documentcloud.org/api/projects/218484/documents";
+
+ const proxyUrl = "http://127.0.0.1:5000/proxy/";
+
+
+
+ (async () => {
+      console.log("start of things")
+      const data = await vetAPI();
+      console.log(data)
+      console.log("Woo")
+      
+      //const dataStub = await getProjectData(documentStub);
+      //console.log(dataStub)
+      const a = await updateProjectData(proxyUrl, {"document": 24658732})
+      console.log(a)
+
+      const x = await deleteProjectData(proxyUrl+emptyProject)
+      console.log(x)
+      
+    })();
+  </script>
+</body>
+</html>

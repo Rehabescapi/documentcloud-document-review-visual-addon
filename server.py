@@ -4,6 +4,16 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from flask_cors import CORS
 
 
+
+context = {  
+    'url' : "https://api.www.documentcloud.org/api/users/me/",
+    'projectsUrl' :"https://api.www.documentcloud.org/api/projects/218188",
+    'projectDocsUrl' :"https://api.www.documentcloud.org/api/projects/218188/documents",
+    'documentStub' : "https://api.www.documentcloud.org/api/documents/",
+    'emptyProject' :"https://api.www.documentcloud.org/api/projects/218484/documents",
+    'proxyUrl' :"http://127.0.0.1:5000/proxy/"
+}
+
 import requests
 
 """
@@ -32,16 +42,16 @@ def hello_world():
 
 @app.route('/gen')
 def gen():
-    return render_template('./tagGen.html')
+    return render_template('./tagGen.html', **context)
 
 @app.route('/create')
 def create():
-    return render_template('./createDocs.html')
+    return render_template('./createDocs.html',**context)
 
 
 @app.route('/project')
 def createProj():
-    return render_template('./createProject.html')
+    return render_template('./createProject.html', **context)
 
 
 @app.route('/proxy/<path:path>', methods=['PUT','PATCH'])
