@@ -4,7 +4,6 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 from flask_cors import CORS
 
 
-
 context = {  
     'url' : "https://api.www.documentcloud.org/api/users/me/",
     'projectsUrl' :"https://api.www.documentcloud.org/api/projects/218188",
@@ -33,6 +32,9 @@ httpd.serve_forever()
 """
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]}})
+
+
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 
