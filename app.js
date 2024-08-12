@@ -213,7 +213,7 @@ function tag() {
       "X-CSRFToken": token,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ values: ["test_value"] }),
+    body: JSON.stringify({ values: ["taco"] }),
   })
     .then((response) => {
       if (response.ok) {
