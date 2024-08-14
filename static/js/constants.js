@@ -10,20 +10,20 @@ export const emptyProject =
 
 export const proxyUrl = "http://127.0.0.1:5000/proxy/";
 
-
-
-export function getURL(){
-    return url;
+export function getURL() {
+  const url = "https://api.www.documentcloud.org/api/users/me/";
+  return url;
 }
 
-export function getProjectURL(){
-    return projectsUrl;
+export function getProjectURL() {
+  const projectsUrl = "https://api.www.documentcloud.org/api/projects/218188";
+  return projectsUrl;
 }
 
-export function getDocumentStub(){
-    return documentStub
+export function getDocumentStub() {
+  return documentStub;
 }
 
-export function proxyURL(){
-    return proxyURL
+export function proxyURL() {
+  return proxyURL;
 }
