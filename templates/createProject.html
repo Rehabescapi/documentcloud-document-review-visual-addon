@@ -153,5 +153,87 @@
       
     })();
   </script>
+
+
+
+<body>
+  <div id="config">
+    <p id="auth">Loading...</p>
+    <table>
+      <tr>
+        <td colspan="2"><label for="query">Query</label></td>
+      </tr>
+      <tr>
+        <td colspan="2"><textarea id="query"></textarea></td>
+      </tr>
+      <tr class="help">
+        <td colspan="2">Enter a query as it would appear on DocumentCloud.org</td>
+      </tr>
+      <tr>
+        <td><label for="attrs">Attributes</label></td>
+        <td><input id="attrs" value="id, title, description"></td>
+      </tr>
+      <tr class="help">
+        <td colspan="2">
+          Enter document attributes to show (id, title, source, description)
+        </td>
+      </tr>
+      <tr>
+        <td><label for="data">Data</label></td>
+        <td><input id="data"></td>
+      </tr>
+      <tr class="help">
+        <td colspan="2">
+          Enter document key-value pairs to show (no leading data_)
+        </td>
+      </tr>
+      <tr>
+        <td><label for="sort">Sort</label></td>
+        <td><input id="sort"></td>
+      <tr class="help">
+        <td colspan="2">
+          You may enter a single data key to sort by, use a leading - to reverse order
+        </td>
+      </tr>
+      </tr>
+      </tr>
+      <tr>
+        <td><label for="group">Group</label></td>
+        <td><input id="group" type="checkbox"></td>
+      </tr>
+      <tr class="help">
+        <td colspan="2">
+          Check to group by the key you have sorted by
+        </td>
+      </tr>
+      <tr>
+        <td><label for="notes">Notes</label></td>
+        <td><input id="notes" type="checkbox"></td>
+      </tr>
+      <tr class="help">
+        <td colspan="2">
+          Show notes
+        </td>
+      </tr>
+    </table>
+    <div class="button">
+      <button id="update">Update</button>
+    </div>
+    <div class="button">
+      <input id="tag_id" placeholder="id">
+      <button id="tag">Tag</button>
+      <p id="tag_txt"></p>
+    </div>
+
+    <div class="button">
+      <input id="tag_id2" placeholder="id2">
+      <button id="tag2">Tag2</button>
+      <p id="tag_txt_2"></p>
+    </div>
+  </div>
+
+  </div>
+  <div id="documents">
+  </div>
 </body>
 </html>
