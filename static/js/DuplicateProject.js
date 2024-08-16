@@ -47,7 +47,7 @@ async function vetAPI(url, emptyProject) {
               if (!document.getElementById("query").value) {
                 document.getElementById("query").value = query;
               }
-              //update();
+
               /**
                * I think this will solve my almagomation
                */
@@ -69,6 +69,7 @@ async function vetAPI(url, emptyProject) {
     document.getElementById("content").innerHTML = "Error: " + error.message;
   }
   console.log("returning xData");
+  console.log(xData);
   return xData;
 }
 
@@ -118,7 +119,7 @@ console.log("end of JS file");
   var emptyProject = getProjectURL();
   console.log(url);
   console.log("Woot");
-  vetAPI(url, emptyProject).then((data) => console.log(data));
+  data = await vetAPI(url, emptyProject);
 
   if (data[0]) {
     toDelete = data[0].document;
