@@ -30,6 +30,7 @@ async function getProjectData(url = "", data = {}) {
 }
 
 async function vetAPI(url, emptyProject) {
+  var xData;
   console.log("Pre Try");
   try {
     console.log("Test");
@@ -46,11 +47,11 @@ async function vetAPI(url, emptyProject) {
               if (!document.getElementById("query").value) {
                 document.getElementById("query").value = query;
               }
-              update();
+              //update();
               /**
                * I think this will solve my almagomation
                */
-              return data;
+              xData = data;
             }
           });
         } else {
@@ -67,6 +68,8 @@ async function vetAPI(url, emptyProject) {
   } catch (error) {
     document.getElementById("content").innerHTML = "Error: " + error.message;
   }
+  console.log("returning xData");
+  return xData;
 }
 
 /** 
@@ -135,3 +138,42 @@ console.log("end of JS file");
     console.log(x);
   } catch (exception) {}
 })();
+
+function update() {
+  var query = document.getElementById("query").value;
+  var attrs = document
+    .getElementById("attrs")
+    .value.split(",")
+    .map((i) => i.trim());
+  var metadata = document
+    .getElementById("data")
+    .value.split(",")
+    .map((i) => i.trim());
+  var sort = document.getElementById("sort").value.trim();
+  var group = document.getElementById("group").checked;
+  var notes = document.getElementById("notes").checked;
+  var state = {
+    query: query,
+    attrs: attrs,
+    metadata: metadata,
+    sort: sort,
+    group: group,
+    notes: notes,
+  };
+  window.location = "#" + encodeURIComponent(JSON.stringify(state));
+
+  var dataUrl;
+  if (sort) {
+    dataUrl = `${searchUrl}?q=${query}&sort=data_${sort}`;
+  } else {
+    dataUrl = `${searchUrl}?q=${query}`;
+  }
+  if (group) {
+    if (sort.startsWith("-")) {
+      group = sort.slice(1);
+    } else {
+      group = sort;
+    }
+  }
+  getDocuments(dataUrl, attrs, metadata, group, notes);
+}
