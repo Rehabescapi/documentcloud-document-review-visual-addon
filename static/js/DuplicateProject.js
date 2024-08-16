@@ -30,6 +30,7 @@ async function getProjectData(url = "", data = {}) {
 }
 
 async function vetAPI() {
+  console.log("test");
   try {
     const response = await fetch(url, { credentials: "include" });
     if (!response.ok) throw new Error("Authentication failed");
