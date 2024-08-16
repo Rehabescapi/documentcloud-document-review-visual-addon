@@ -30,10 +30,41 @@ async function getProjectData(url = "", data = {}) {
 }
 
 async function vetAPI() {
-  console.log("Pre Try")
+  console.log("Pre Try");
   try {
-    console.log("Test")
-    const response = await fetch(url, { credentials: "include" });
+    console.log("Test");
+    fetch(url, { credentials: "include" })
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((data) => {
+            if (data) {
+              document.getElementById("auth").innerHTML =
+                "You are authenticated as " + data.username;
+              userId = data.id;
+              var query = `user:${userId}`;
+              if (!document.getElementById("query").value) {
+                document.getElementById("query").value = query;
+              }
+              update();
+            }
+          });
+        } else {
+          document.getElementById("auth").innerHTML =
+            'You are not authenticated, <a href="https://www.documentcloud.org/">please login</a>';
+        }
+      })
+      .catch(
+        (err) =>
+          (document.getElementById(
+            "auth"
+          ).innerHTML = `Error: check your CORS settings: ${err}`)
+      );
+  } catch (error) {
+    document.getElementById("content").innerHTML = "Error: " + error.message;
+  }
+}
+
+/** 
     if (!response.ok) throw new Error("Authentication failed");
 
     console.log("Fetch URL");
@@ -69,11 +100,7 @@ async function vetAPI() {
 
     await Promise.all(docPromises);
 
-    return smallArray;
-  } catch (error) {
-    document.getElementById("content").innerHTML = "Error: " + error.message;
-  }
-}
+    return smallArray; */
 
 console.log("end of JS file");
 
