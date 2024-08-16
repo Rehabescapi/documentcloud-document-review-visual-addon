@@ -29,7 +29,7 @@ async function getProjectData(url = "", data = {}) {
   return response.json(); // parses JSON response into native JavaScript objects
 }
 
-async function vetAPI() {
+async function vetAPI(url, emptyProject) {
   console.log("Pre Try");
   try {
     console.log("Test");
@@ -110,8 +110,7 @@ console.log("end of JS file");
   var emptyProject = getProjectURL();
   console.log(url);
   console.log("Woot");
-  const data = await vetAPI(url, emptyProject);
-  console.log(data);
+  vetAPI(url, emptyProject).then((data) => console.log(data));
 
   if (data[0]) {
     toDelete = data[0].document;
