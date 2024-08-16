@@ -38,14 +38,19 @@ async function vetAPI(url, emptyProject) {
         if (response.ok) {
           response.json().then((data) => {
             if (data) {
+              console.log(data);
               document.getElementById("auth").innerHTML =
                 "You are authenticated as " + data.username;
-              userId = data.id;
+              var userId = data.id;
               var query = `user:${userId}`;
               if (!document.getElementById("query").value) {
                 document.getElementById("query").value = query;
               }
               update();
+              /**
+               * I think this will solve my almagomation
+               */
+              return data;
             }
           });
         } else {
